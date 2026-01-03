@@ -2,6 +2,7 @@
 
 import { Microscope } from "lucide-react";
 import { motion } from "framer-motion";
+import { ModeToggle } from "./ModeToggle";
 
 export default function NavBar() {
   return (
@@ -12,12 +13,19 @@ export default function NavBar() {
       className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/70 backdrop-blur-lg"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center">
+        {/* SINGLE ROW */}
+        <div className="flex h-20 items-center justify-between">
+          {/* LEFT: Logo */}
           <div className="flex items-center gap-2">
             <Microscope className="h-6 w-6 text-foreground" />
             <span className="text-2xl font-extrabold tracking-tight">
               ResumeScope
             </span>
+          </div>
+
+          {/* RIGHT: Actions */}
+          <div className="flex items-center gap-3">
+            <ModeToggle />
           </div>
         </div>
       </div>
