@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { UploadCloud, ShieldCheck, Zap, FileText } from "lucide-react";
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import validateInput from "@/utils/validateInput";
 import { toast } from "react-toastify";
 
@@ -32,6 +33,8 @@ export default function ResumeUploadPage() {
   const canAnalyse = Boolean(file && isValidRole);
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
+  const router = useRouter();
+
   const handleSubmit = () => {
     if (!validateInput(role)) {
       return toast.warning(`Invalid role: ${role}!`);
@@ -40,6 +43,8 @@ export default function ResumeUploadPage() {
     if (!file) {
       return toast.warning("Please upload your resume!");
     }
+
+    router.push(`/result?role=${encodeURIComponent(role)}`);
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null); // useRef to change the DOM without re-rendering
