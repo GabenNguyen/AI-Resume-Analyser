@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { UploadCloud, ShieldCheck, Zap, FileText } from "lucide-react";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import validateInput from "@/utils/validateInput";
 import { toast } from "react-toastify";
+import validateInput from "@/utils/validateInput";
+import AnalysingDialogs from "../components/AnalysingDialogs";
 
 const features = [
   {
@@ -33,6 +34,9 @@ export default function ResumeUploadPage() {
   const canAnalyse = Boolean(file && isValidRole);
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
+  // Show analysing dialog state
+  const [isAnalysing, setIsAnalysing] = useState(false);
+
   const router = useRouter();
 
   const handleSubmit = () => {
@@ -44,7 +48,11 @@ export default function ResumeUploadPage() {
       return toast.warning("Please upload your resume!");
     }
 
-    router.push(`/result?role=${encodeURIComponent(role)}`);
+    setIsAnalysing(true); // show the analysing dialog before routing to the result page
+
+    setTimeout(() => {
+      router.push(`/result?role=${encodeURIComponent(role)}`);
+    }, 3000);
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null); // useRef to change the DOM without re-rendering
@@ -142,7 +150,8 @@ export default function ResumeUploadPage() {
         : "bg-primary text-primary-foreground opacity-50 cursor-not-allowed"
     }`}
           >
-            <a href="/result">Analyze Resume</a>
+            {/* Since there is a router.push() above, the anchor tag is unnecessary and therefore deleted */}
+            Analyze Resume
           </button>
 
           {/* Trust Row */}
@@ -158,6 +167,10 @@ export default function ResumeUploadPage() {
             ))}
           </div>
         </motion.div>
+        <AnalysingDialogs
+          open={isAnalysing}
+          onClose={() => setIsAnalysing(false)}
+        />
       </div>
     </main>
   );
