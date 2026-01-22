@@ -14,6 +14,13 @@ const ResultPage = () => {
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
 
+  const getATSScoreVerdict = (score: number) => {
+    if (score >= 85) return "Excellent - You are job-ready!";
+    if (score >= 75) return "Good - Minor improvements needed";
+    if (score >= 50) return "Fair - Consider revising your resume";
+    return "Poor - likely ATS rejection!";
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-10 space-y-10">
       {/* Header */}
@@ -38,6 +45,21 @@ const ResultPage = () => {
           </div>
 
           <Progress value={mockResult.atsScore} />
+
+          {/* Verdict */}
+          <p
+            className={`font-medium text-sm ${
+              mockResult.atsScore >= 85
+                ? "text-emerald-600"
+                : mockResult.atsScore >= 75
+                ? "text-green-400"
+                : mockResult.atsScore >= 50
+                ? "text-yellow-600"
+                : "text-red-600"
+            }`}
+          >
+            {getATSScoreVerdict(mockResult.atsScore)}
+          </p>
 
           <p className="text-sm text-muted-foreground">
             Scores above 75 typically pass most Applicant Tracking Systems.
