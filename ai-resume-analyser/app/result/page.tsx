@@ -7,12 +7,31 @@ import { Card, CardContent } from "@/components/ui/card";
 import mockResult from "@/type/mock_result";
 import InsightCard from "../components/InsightCard";
 import { useSearchParams } from "next/navigation";
+import { useAnalysis } from "../context/analysisStore";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 // boilerplate only (will be updated later)
 const ResultPage = () => {
+  // Get analysis from context
+  const { analysis } = useAnalysis();
+
   // useSearchParams to read the role URL
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
+
+  const router = useRouter();
+
+  // Prevent direct access to result page if no analysis is present
+  useEffect(() => {
+    if (!analysis) {
+      router.push("/analysis");
+    }
+  }, [analysis, router]);
+
+  if (!analysis) {
+    return null;
+  }
 
   const getATSScoreVerdict = (score: number) => {
     if (score >= 85) return "Excellent - You are job-ready!";
@@ -52,13 +71,13 @@ const ResultPage = () => {
               mockResult.atsScore >= 85
                 ? "text-emerald-600"
                 : mockResult.atsScore >= 75
-                ? "text-green-400"
-                : mockResult.atsScore >= 50
-                ? "text-yellow-600"
-                : "text-red-600"
+                  ? "text-green-400"
+                  : mockResult.atsScore >= 50
+                    ? "text-yellow-600"
+                    : "text-red-600"
             }`}
           >
-            {getATSScoreVerdict(mockResult.atsScore)}
+            {getATSScoreVerdict(analysis.atsScore)}
           </p>
 
           <p className="text-sm text-muted-foreground">
@@ -71,12 +90,12 @@ const ResultPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <InsightCard
           title="What You Did Well"
-          items={mockResult.strengths}
+          items={analysis.strengths}
           tone="positive"
         />
         <InsightCard
           title="What Can Be Improved"
-          items={mockResult.improvements}
+          items={analysis.improvements}
           tone="warning"
         />
       </div>
@@ -89,7 +108,7 @@ const ResultPage = () => {
           </h2>
 
           <div className="flex flex-wrap gap-2">
-            {mockResult.missingKeywords.map((keyword) => (
+            {analysis.missingKeywords.map((keyword: string) => (
               <Badge key={keyword} variant="outline" className="rounded-full">
                 {keyword}
               </Badge>
