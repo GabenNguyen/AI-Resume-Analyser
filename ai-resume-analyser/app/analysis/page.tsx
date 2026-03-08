@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { useAnalysis } from "../context/analysisStore";
 import validateInput from "@/utils/validateInput";
 import AnalysingDialogs from "../components/AnalysingDialogs";
-import { extractEtag } from "next/dist/server/image-optimizer";
 
 const features = [
   {
