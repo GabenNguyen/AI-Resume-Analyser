@@ -4,6 +4,7 @@ import "./globals.css";
 import NavBar from "./components/NavBar";
 import ThemeProvider from "./components/ThemeProvider";
 import { ToastContainer } from "react-toastify";
+import { AnalysisProvider } from "./context/analysisStore";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,16 +34,19 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <ToastContainer position="bottom-right" />
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <NavBar />
 
-            {children}
-          </ThemeProvider>
+          <AnalysisProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <NavBar />
+
+              {children}
+            </ThemeProvider>
+          </AnalysisProvider>
         </body>
       </html>
     </>

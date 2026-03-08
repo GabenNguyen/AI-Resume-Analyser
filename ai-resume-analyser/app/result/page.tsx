@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
-import mockResult from "@/type/mock_result";
 import InsightCard from "../components/InsightCard";
 import { useSearchParams } from "next/navigation";
 import { useAnalysis } from "../context/analysisStore";
@@ -59,20 +58,20 @@ const ResultPage = () => {
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-medium">ATS Compatibility Score</h2>
             <Badge variant="secondary" className="text-base">
-              {mockResult.atsScore}/100
+              {analysis.atsScore}/100
             </Badge>
           </div>
 
-          <Progress value={mockResult.atsScore} />
+          <Progress value={analysis.atsScore} />
 
           {/* Verdict */}
           <p
             className={`font-medium text-sm ${
-              mockResult.atsScore >= 85
+              analysis.atsScore >= 85
                 ? "text-emerald-600"
-                : mockResult.atsScore >= 75
+                : analysis.atsScore >= 75
                   ? "text-green-400"
-                  : mockResult.atsScore >= 50
+                  : analysis.atsScore >= 50
                     ? "text-yellow-600"
                     : "text-red-600"
             }`}
