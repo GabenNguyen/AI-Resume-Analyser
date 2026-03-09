@@ -1,4 +1,7 @@
 import { PDFParse } from 'pdf-parse';
+PDFParse.setWorker(
+    new URL("pdfjs-dist/legacy/build/pdf.worker.min.mjs", import.meta.url).toString()
+);
 
 export async function POST(req: Request) {
     const formData = await req.formData();
@@ -14,18 +17,24 @@ export async function POST(req: Request) {
 
     try {
         // extract text from pdf
-        const pdfData = new PDFParse({data: pdfBuffer});
-        const pdfText = pdfData.getText();
+        const parser= new PDFParse({ data: pdfBuffer });
 
-        if(!pdfText) {
-            return Response.json( { error: "Unable to extract text from PDF!"}, { status: 400 });
+        const result = await parser.getText(); // TextResult object
+
+        await parser.destroy();
+
+        if(!result) {
+            return Response.json({ error: "Error processing PDF file!"}, { status: 500 });
         }
 
-        return Response.json(pdfText, { status: 200})
+        const cleanText = result.text.replace(/\r/g, "").replace(/\n{2,}/g, "\n").replace(/\s{2,}/g, " ").trim(); // actual string
+
+        
+        return Response.json(cleanText, {status: 200});
     
     } catch (error) {
         console.error(`Error: ${error}`)
-        return Response.json( { error: "Error extracting PDF text!"}, {status: 500})
+        return Response.json({ error: "Error processing PDF file!"}, { status: 500 });
     }
 
 }
