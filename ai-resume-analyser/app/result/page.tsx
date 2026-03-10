@@ -48,7 +48,13 @@ const ResultPage = () => {
         </h1>
         <p className="text-muted-foreground">
           AI-powered feedback tailored to the{" "}
-          <span className="font-medium">{role}</span> role.
+          <span className="font-bold">{role?.toUpperCase()}</span> role.
+          <p className="font-semibold dark:text-yellow-400 text-red-600 mt-3">
+            (<span className="font-bold">IMPORTANT NOTE:</span> The result is
+            for <span className="font-bold">REFERENCE ONLY</span> and may not be
+            100% accurate. Always double-check it with your mentor before
+            applying to jobs!)
+          </p>
         </p>
       </div>
 
@@ -102,25 +108,42 @@ const ResultPage = () => {
       {/* Missing Keywords */}
       <Card className="rounded-2xl">
         <CardContent className="p-6 space-y-4">
-          <h2 className="text-lg font-medium">
+          <h2 className="text-2xl font-bold">
             Missing Keywords (ATS Optimization)
           </h2>
 
           <div className="flex flex-wrap gap-2">
             {analysis.missingKeywords.map((keyword: string) => (
-              <Badge key={keyword} variant="outline" className="rounded-full">
+              <Badge
+                key={keyword}
+                variant="outline"
+                className="rounded-full text-md"
+              >
                 {keyword}
               </Badge>
             ))}
           </div>
 
-          <p className="text-sm text-muted-foreground">
+          <p className="text-md text-muted-foreground">
             Adding these naturally can improve ATS ranking.
           </p>
         </CardContent>
       </Card>
 
-      {/* Actions */}
+      {/* Actionable suggestions */}
+      <Card className="rounded-2xl">
+        <CardContent className="p-6 space-y-4">
+          <h2 className="text-2xl font-bold">
+            Actionable Suggestions (to boost your resume further)
+          </h2>
+          <ul className="list-disc list-inside space-y-2 text-md">
+            {analysis.suggestions.map((suggestion: string, index: number) => (
+              <li key={index}>{suggestion}</li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
+
       <div className="flex justify-center gap-4">
         <Link
           href="/analysis"
