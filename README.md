@@ -2,7 +2,7 @@
 
 [GitHub Repository](https://github.com/GabenNguyen/IntelliCheck.git)
 
-**ResumeScope** is a lightweigth web application that helps users **analyse and optimise their resumes** for ATS (Applicant Tracking Systems) and recruiters using **AI-powered insights**. Upload your resume PDF and receive instant, structured feedback to improve your chances of landing your target job.
+**ResumeScope** is a lightweight web application that helps users **analyse and optimise their resumes** for ATS (Applicant Tracking Systems) and recruiters using **AI-powered insights**. Upload your resume PDF and receive instant, structured feedback to improve your chances of landing your target job.
 
 ---
 
@@ -22,11 +22,6 @@
 
 - **💡 Modern UI & Smooth Animations**  
   Built with **Next.js**, **Tailwind CSS**, and **Framer Motion** for a responsive, intuitive, and visually appealing interface.
-
-- **⚡ Fast & Scalable**  
-  Powered by **Next.js App Router**, **TypeScript**, and **Prisma ORM** with **Neon (PostgreSQL)** for reliability and performance.
-
----
 
 ## 💻 Tech Stack
 
