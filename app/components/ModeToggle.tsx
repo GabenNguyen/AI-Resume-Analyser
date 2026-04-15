@@ -17,7 +17,7 @@ export function ModeToggle() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="cursor-pointer relative"
+          className="cursor-pointer relative rounded-full"
           variant="outline"
           size="icon"
         >
@@ -26,21 +26,21 @@ export function ModeToggle() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="rounded-xl border-slate-200 dark:border-slate-800">
         <DropdownMenuItem
-          className="cursor-pointer"
+          className="cursor-pointer rounded-lg"
           onClick={() => setTheme("light")}
         >
           Light
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="cursor-pointer"
+          className="cursor-pointer rounded-lg"
           onClick={() => setTheme("dark")}
         >
           Dark
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="cursor-pointer"
+          className="cursor-pointer rounded-lg"
           onClick={() => setTheme("system")}
         >
           System

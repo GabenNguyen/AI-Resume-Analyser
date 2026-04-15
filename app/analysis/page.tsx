@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useAnalysis } from "../context/analysisStore";
 import validateInput from "@/utils/validateInput";
 import AnalysingDialogs from "../components/AnalysingDialogs";
+import Footer from "../components/Footer";
 
 const features = [
     {
@@ -278,6 +279,8 @@ export default function ResumeUploadPage() {
                     onClose={() => setIsAnalysing(false)}
                 />
             </div>
+
+            <Footer />
         </main>
     );
 }

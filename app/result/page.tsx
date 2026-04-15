@@ -3,9 +3,11 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { CheckCircle2, AlertTriangle, Hash, Sparkles, TrendingUp, RefreshCcw } from "lucide-react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAnalysis } from "../context/analysisStore";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
+import Footer from "../components/Footer";
+import { useSearchParams } from "next/navigation";
 
 // Helper Circular Progress Component
 const ScoreRing = ({ score }: { score: number }) => {
@@ -57,7 +59,7 @@ const ScoreRing = ({ score }: { score: number }) => {
   );
 };
 
-export default function ResultPage() {
+function ResultContent() {
   const { analysis } = useAnalysis();
   const searchParams = useSearchParams();
   const role = searchParams.get("role");
@@ -259,6 +261,16 @@ export default function ResultPage() {
         </motion.div>
 
       </div>
+
+      <Footer />
     </main>
+  );
+}
+
+export default function ResultPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <ResultContent />
+    </Suspense>
   );
 }
