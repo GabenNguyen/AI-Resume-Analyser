@@ -253,7 +253,7 @@ function ResultContent() {
         >
           <Link
             href="/analysis"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 font-bold shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all"
+            className="inline-flex items-center gap-2 px-8 py-4 mb-15 rounded-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 font-bold shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all"
           >
             <RefreshCcw className="w-5 h-5" />
             Upload New Resume
