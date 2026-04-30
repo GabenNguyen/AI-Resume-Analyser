@@ -3,13 +3,13 @@ import { GoogleGenAI } from "@google/genai";
 export async function POST(req: Request) {
     try {
         const { pdfText, role, jd } = await req.json();
-    
-        if(!pdfText|| !role) {
-            return Response.json({ error: "Missing text or role!"}, {status: 400});
+
+        if (!pdfText || !role) {
+            return Response.json({ error: "Missing text or role!" }, { status: 400 });
         }
-        
-        const gemini = new GoogleGenAI( {apiKey: process.env.GEMINI_KEY});
-    
+
+        const gemini = new GoogleGenAI({});
+
         const prompt = `You are an expert HR recruiter and ATS (Applicant Tracking System).
 
         Your task is to analyse the following resume.
@@ -83,23 +83,23 @@ Even if section titles are slightly different or poorly formatted.
         - Output must be valid JSON only
         - Use Australian English for any text in the JSON
         `;
-        
-        const response = await gemini.models.generateContent( {
+
+        const response = await gemini.models.generateContent({
             model: "gemini-2.5-flash",
             contents: prompt,
         })
 
         const text = response.text ?? "";
-        
+
         const formattedText = text.replace(/```json|```/g, "").trim();
-        
+
         const outputData = JSON.parse(formattedText);
 
-        return Response.json(outputData, { status: 200});
+        return Response.json(outputData, { status: 200 });
 
     } catch (err) {
         console.error(`Error analysing resume: ${err}`);
-        return Response.json({ error: "Error analysing resume!"}, {status: 500});
+        return Response.json({ error: "Error analysing resume!" }, { status: 500 });
     }
 
 }
