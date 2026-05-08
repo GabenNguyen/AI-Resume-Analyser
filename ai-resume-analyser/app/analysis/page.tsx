@@ -1,10 +1,10 @@
 "use client";
-
 import { motion } from "framer-motion";
 import { UploadCloud, ShieldCheck, Zap, FileText } from "lucide-react";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useAnalysis } from "../context/analysisStore";
 import validateInput from "@/utils/validateInput";
 import AnalysingDialogs from "../components/AnalysingDialogs";
 
@@ -37,9 +37,11 @@ export default function ResumeUploadPage() {
   // Show analysing dialog state
   const [isAnalysing, setIsAnalysing] = useState(false);
 
+  const { setAnalysis } = useAnalysis(); // get the setAnalysis function from the context
+
   const router = useRouter();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validateInput(role)) {
       return toast.warning(`Invalid role: ${role}!`);
     }
@@ -50,9 +52,29 @@ export default function ResumeUploadPage() {
 
     setIsAnalysing(true); // show the analysing dialog before routing to the result page
 
-    setTimeout(() => {
+    // Prepare form data for the backend
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("role", role);
+
+    try {
+      const response = await fetch("/api/resume/analyse", {
+        method: "POST",
+        body: formData,
+      });
+
+      const outputData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(outputData.error || "Failed to analyse resume!");
+      }
+
+      setAnalysis(outputData); // store the analysis data in the context
       router.push(`/result?role=${encodeURIComponent(role)}`);
-    }, 3000);
+    } catch {
+      toast.error("Error analysing resume. Please try again.");
+      setIsAnalysing(false);
+    }
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null); // useRef to change the DOM without re-rendering
