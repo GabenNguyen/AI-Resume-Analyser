@@ -30,6 +30,7 @@ export default function ResumeUploadPage() {
   // File and role parts
   const [file, setFile] = useState<File | null>(null);
   const [role, setRole] = useState<string>("");
+  const [jd, setJd] = useState<string>("");
   const isValidRole = role.trim().length >= 2; // HR is still a role!
   const canAnalyse = Boolean(file && isValidRole);
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -56,6 +57,7 @@ export default function ResumeUploadPage() {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("role", role);
+    formData.append("jd", jd);
 
     try {
       const extractRes = await fetch("/api/resume/extract", {
@@ -72,7 +74,7 @@ export default function ResumeUploadPage() {
       const analyseRes = await fetch("/api/resume/analyse", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pdfText: extractedData, role }),
+        body: JSON.stringify({ pdfText: extractedData, role, jd }),
       });
 
       const analysedData = await analyseRes.json();
@@ -83,7 +85,8 @@ export default function ResumeUploadPage() {
 
       setAnalysis(analysedData); // store the analysis data in the context
       router.push(`/result?role=${encodeURIComponent(role)}`);
-    } catch {
+    } catch (err) {
+      console.error(`${err}`);
       toast.error("Error analysing resume. Please try again.");
       setIsAnalysing(false);
     } finally {
@@ -128,7 +131,16 @@ export default function ResumeUploadPage() {
               value={role}
               onChange={(e) => setRole(e.target.value)}
               className="w-full rounded-xl border bg-background px-4 py-3 text-sm
-               focus:outline-none focus:ring-2 focus:ring-primary"
+              focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            <p className="text-sm font-medium mt-3">Job Description</p>
+            <input
+              type="text"
+              placeholder="Paste the job description here for tailored feedback (optional)"
+              value={jd}
+              onChange={(e) => setJd(e.target.value)}
+              className="w-full rounded-xl border bg-background px-4 py-3 text-sm
+              focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
