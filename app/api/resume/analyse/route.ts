@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import generateResponse from "@/lib/ai/ai-response";
 
 export async function POST(req: Request) {
     try {
@@ -7,8 +7,6 @@ export async function POST(req: Request) {
         if (!pdfText || !role) {
             return Response.json({ error: "Missing text or role!" }, { status: 400 });
         }
-
-        const gemini = new GoogleGenAI({});
 
         const prompt = `You are an expert HR recruiter and ATS (Applicant Tracking System).
 
@@ -84,22 +82,18 @@ Even if section titles are slightly different or poorly formatted.
         - Use Australian English for any text in the JSON
         `;
 
-        const response = await gemini.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: prompt,
-        })
+        const response = await generateResponse(prompt);
 
-        const text = response.text ?? "";
+        const cleanedText = response.output.replace(/```json|```/g, "").trim();
 
-        const formattedText = text.replace(/```json|```/g, "").trim();
-
-        const outputData = JSON.parse(formattedText);
-
-        return Response.json(outputData, { status: 200 });
+        return Response.json(JSON.parse(cleanedText), { status: 200 });
 
     } catch (err) {
-        console.error(`Error analysing resume: ${err}`);
-        return Response.json({ error: "Error analysing resume!" }, { status: 500 });
+        console.error(`API error: ${err}`);
+        return Response.json(
+            { outputData: "Service temporarily unavailable." },
+            { status: 500 }
+        );
     }
 
 }

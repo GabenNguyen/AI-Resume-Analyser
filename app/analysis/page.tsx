@@ -72,7 +72,7 @@ export default function ResumeUploadPage() {
             const analyseRes = await fetch("/api/resume/analyse", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ pdfText: extractedData, role, jd }),
+                body: JSON.stringify({ pdfText: extractedData.text, role, jd }),
             });
 
             const analysedData = await analyseRes.json();
@@ -116,7 +116,7 @@ export default function ResumeUploadPage() {
 
             {/* Background Decor */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden flex justify-center">
-                <div className="absolute top-0 w-full max-w-2xl h-[500px] bg-purple-500/10 dark:bg-purple-600/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen" />
+                <div className="absolute top-0 w-full max-w-2xl h-125 bg-purple-500/10 dark:bg-purple-600/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen" />
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
             </div>
 
@@ -133,7 +133,7 @@ export default function ResumeUploadPage() {
                         <ShieldCheck className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                     </div>
                     <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
-                        Upload & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">Analyze</span>
+                        Upload & <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">Analyze</span>
                     </h1>
                     <p className="text-lg text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
                         Drop your resume here. Our AI will instantly score it and offer actionable insights to boost your chances.
