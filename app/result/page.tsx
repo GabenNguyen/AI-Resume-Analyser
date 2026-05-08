@@ -87,7 +87,7 @@ function ResultContent() {
 
       {/* Background Decor */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden flex justify-center">
-        <div className="absolute top-0 w-full max-w-4xl h-[400px] bg-purple-500/5 dark:bg-purple-600/5 rounded-[100%] blur-[120px]" />
+        <div className="absolute top-0 w-full max-w-4xl h-100 bg-purple-500/5 dark:bg-purple-600/5 rounded-[100%] blur-[120px]" />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
       </div>
 
@@ -104,9 +104,9 @@ function ResultContent() {
             <span className="text-sm font-bold text-slate-900 dark:text-white">{role?.toUpperCase()}</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-            Analysis <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">Complete</span>
+            Analysis <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">Complete</span>
           </h1>
-          <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 font-medium bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-400 p-4 rounded-2xl border border-amber-200 dark:border-amber-900/50 mt-6 shadow-sm">
+          <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 font-medium bg-amber-50 dark:bg-amber-950/30 p-4 rounded-2xl border border-amber-200 dark:border-amber-900/50 mt-6 shadow-sm">
             <span className="font-bold flex items-center justify-center gap-2 mb-1"><AlertTriangle className="w-4 h-4" /> Important Note</span>
             The result is for reference only and may not be 100% accurate. Review with a mentor before applying to jobs.
           </p>
@@ -219,7 +219,7 @@ function ResultContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="rounded-[2rem] bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-950 dark:to-slate-900 text-white p-8 md:p-12 shadow-2xl relative overflow-hidden"
+          className="rounded-[2rem] bg-linear-to-br from-slate-900 to-slate-800 dark:from-slate-950 dark:to-slate-900 text-white p-8 md:p-12 shadow-2xl relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <TrendingUp className="w-48 h-48" />
