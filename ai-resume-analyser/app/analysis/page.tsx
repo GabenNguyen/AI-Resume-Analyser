@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useAnalysis } from "../context/analysisStore";
 import validateInput from "@/utils/validateInput";
 import AnalysingDialogs from "../components/AnalysingDialogs";
+import { extractEtag } from "next/dist/server/image-optimizer";
 
 const features = [
   {
@@ -58,22 +59,36 @@ export default function ResumeUploadPage() {
     formData.append("role", role);
 
     try {
-      const response = await fetch("/api/resume/analyse", {
+      const extractRes = await fetch("/api/resume/extract", {
         method: "POST",
         body: formData,
       });
 
-      const outputData = await response.json();
+      const extractedData = await extractRes.json();
 
-      if (!response.ok) {
-        throw new Error(outputData.error || "Failed to analyse resume!");
+      if (!extractRes.ok) {
+        throw new Error(extractedData.error || "Failed to extract text!");
       }
 
-      setAnalysis(outputData); // store the analysis data in the context
+      const analyseRes = await fetch("/api/resume/analyse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pdfText: extractedData, role }),
+      });
+
+      const analysedData = await analyseRes.json();
+
+      if (!analyseRes.ok) {
+        throw new Error(analysedData.error || "Failed to analyse resume!");
+      }
+
+      setAnalysis(analysedData); // store the analysis data in the context
       router.push(`/result?role=${encodeURIComponent(role)}`);
     } catch {
       toast.error("Error analysing resume. Please try again.");
       setIsAnalysing(false);
+    } finally {
+      setIsAnalysing(false); // hide the analysing dialog after the process is done
     }
   };
 
