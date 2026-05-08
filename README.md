@@ -2,14 +2,13 @@
 
 [GitHub Repository](https://github.com/GabenNguyen/IntelliCheck.git)
 
-[Live Demo](https://resume-scope-phi.vercel.app)
+[Live Demo](https://resume-scope-phi.vercel.app) (Currently old version using `pdf-parse` due to the unsupported of the `pdf-parse-new` library on Vercel)
 
 **ResumeScope** is a lightweight web application that helps users **analyse and optimise their resumes** for ATS (Applicant Tracking Systems) and recruiters using **AI-powered insights**. Upload your resume PDF and receive instant, structured feedback to improve your chances of landing your target job.
 
 ## IMPORTANT NOTE
-Since there's no subscription for the AI (i.e. **Free Tier** aka **"I'm broke!"**) so the number of use is limited. 
-
-Use it WISELY! 
+1. AI generated feedback sometimes make mistakes. Always double check before applying for jobs.
+2. Since there's no subscription for the AI (i.e. **Free Tier** aka **"I'm broke!"**) so the number of use in a day is limited. Use it WISELY! 
 
 Thank you very much for your understanding and wish you have your dreamed job in no time!
 
@@ -21,7 +20,7 @@ Thank you very much for your understanding and wish you have your dreamed job in
   Easily upload your resume in PDF format. Supports single or multi-page resumes.
 
 - **🤖 AI-Powered Analysis**  
-  Uses **Google Gemini AI** to generate insights including ATS score, missing keywords, and improvement suggestions.
+  Uses **Google Gemini AI** and **NVIDIA Nemotron Nano 12B 2 VL** to generate insights including ATS score, missing keywords, and improvement suggestions.
 
 - **🔍 Tailored Feedback for Job Roles**  
   Compare your resume against a job description (optional) for precise keyword and skill matching.
@@ -43,11 +42,14 @@ Thank you very much for your understanding and wish you have your dreamed job in
 
 ### Backend
 - **Next.js API Routes**
-- **Google Gemini AI** for NLP analysis
-- **`pdf-parse`** library for text extraction
+- **Google Gemini AI** for NLP analysis and **NVIDIA Nemotron Nano 12B 2 VL** as a fallback model
+- **`pdf-parse`** and `pdf-parse-new` libraries for text extraction
 
 ### Deployment
 - **Vercel**
+
+### Version Control
+- **Git/GitHub**
 
 ---
 
@@ -57,7 +59,7 @@ The IT job market is highly competitive—especially for recent graduates—maki
 ## 🔎 How It Works
 
 1. Upload a PDF resume and optionally paste a job description.  
-2. The AI analyzes the resume for:  
+2. The AI analyses the resume for:  
    - ATS compatibility  
    - Missing keywords  
    - Skills alignment  
@@ -73,6 +75,7 @@ Create an `.env` file in the root directory with:
 
 ```env
 GEMINI_API_KEY = <your GEMINI key>
+OPENROUTER_API_KEY = <your OpenRouter key>
 ```
 
 ## 🚀 Getting Started
@@ -85,6 +88,8 @@ npm install
 or
 yarn install
 
+# Add the required API key
+
 # Start the development server
 npm run dev
 ```
@@ -93,9 +98,11 @@ npm run dev
 
 **Full-Stack Web Development**: Gained practical experience building a full-stack application from frontend to backend.
 
-**AI Integration**: Implemented Google Gemini AI for dynamic content generation and resume analysis.
+**AI Integration**: Implemented Google Gemini AI for dynamic content generation and resume analysis, and utilise AI models on OpenRouter to serve as a fallback.
 
-**PDF Text Extraction**: Understand how to use `pdf-parse` library to extract text from an uploaded PDF and use those extracted text for AI analysis
+**PDF Text Extraction**: Understand how to use `pdf-parse` and `pdf-parse-new` libraries to extract text from an uploaded PDF and use those extracted text for AI analysis.
+
+**Analysis Flow**: Understand the flow of how resume is analysed using AI, from user input resume to text extraction using libraries and finally feed the AI with the extracted text.
 
 **Modern UI/UX Design**: Built a responsive, polished interface with Tailwind CSS and Framer Motion.
 
