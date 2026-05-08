@@ -182,11 +182,12 @@ export default function ResumeUploadPage() {
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
-              className={`relative flex flex-col items-center justify-center p-12 rounded-3xl border-2 border-dashed transition-all cursor-pointer overflow-hidden ${isHovering
-                ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20"
-                : file
-                  ? "border-green-500 bg-green-50/50 dark:bg-green-900/10"
-                  : "border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-900"
+              className={`relative flex flex-col items-center justify-center p-12 rounded-3xl border-2 border-dashed transition-all cursor-pointer overflow-hidden 
+                ${isHovering
+                  ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20"
+                  : file
+                    ? "border-green-500 bg-green-50/50 dark:bg-green-900/10"
+                    : "border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-900"
                 }`}
             >
               <input
