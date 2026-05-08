@@ -6,9 +6,14 @@ import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
 import mockResult from "@/type/mock_result";
 import InsightCard from "../components/InsightCard";
+import { useSearchParams } from "next/navigation";
 
 // boilerplate only (will be updated later)
 const ResultPage = () => {
+  // useSearchParams to read the role URL
+  const searchParams = useSearchParams();
+  const role = searchParams.get("role");
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-10 space-y-10">
       {/* Header */}
@@ -18,7 +23,7 @@ const ResultPage = () => {
         </h1>
         <p className="text-muted-foreground">
           AI-powered feedback tailored to the{" "}
-          <span className="font-medium">{mockResult.roleMatch}</span> role.
+          <span className="font-medium">{role}</span> role.
         </p>
       </div>
 
