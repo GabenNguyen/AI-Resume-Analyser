@@ -14,9 +14,9 @@ export default function NavBar() {
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-4 inset-x-0 z-50 flex justify-center px-4 pointer-events-none"
+      className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4"
     >
-      <div className="pointer-events-auto flex items-center justify-between w-full max-w-5xl rounded-full bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-800/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.12)] backdrop-blur-xl px-4 py-3 sm:px-6">
+      <div className="w-full max-w-5xl flex items-center justify-between rounded-full bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-800/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.12)] backdrop-blur-xl px-4 py-3 sm:px-6">
 
         {/* LEFT: Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
