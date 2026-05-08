@@ -39,8 +39,7 @@
 ---
 
 ## 🎯 Purpose
-The IT job market is highly competitive, especially for fresh graduates. A well-structured, ATS-optimized resume is crucial for landing interviews. **ResumeScope** helps job seekers enhance their resumes with actionable, AI-powered insights, improving their chances of success.
-
+The IT job market is highly competitive—especially for recent graduates—making a well-structured, ATS-optimized resume essential for securing interviews. **ResumeScope** empowers job seekers with AI-driven, actionable insights to strengthen their resumes and improve their chances of standing out to recruiters.
 
 ## 🔎 How It Works
 
