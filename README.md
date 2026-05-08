@@ -2,7 +2,16 @@
 
 [GitHub Repository](https://github.com/GabenNguyen/IntelliCheck.git)
 
+[Live Demo](https://resume-scope-phi.vercel.app)
+
 **ResumeScope** is a lightweight web application that helps users **analyse and optimise their resumes** for ATS (Applicant Tracking Systems) and recruiters using **AI-powered insights**. Upload your resume PDF and receive instant, structured feedback to improve your chances of landing your target job.
+
+## IMPORTANT NOTE
+Since there's no subscription for the AI (i.e. **Free Tier** aka **"I'm broke!"**) so the number of use is limited. 
+
+Use it WISELY! 
+
+Thank you very much for your understanding and wish you have your dreamed job in no time!
 
 ---
 
@@ -35,6 +44,10 @@
 ### Backend
 - **Next.js API Routes**
 - **Google Gemini AI** for NLP analysis
+- **`pdf-parse`** library for text extraction
+
+### Deployment
+- **Vercel**
 
 ---
 
