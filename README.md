@@ -2,7 +2,7 @@
 
 [GitHub Repository](https://github.com/GabenNguyen/IntelliCheck.git)
 
-**ResumeScope** is a full-stack web application that helps users **analyse and optimise their resumes** for ATS (Applicant Tracking Systems) and recruiters using **AI-powered insights**. Upload your resume PDF and receive instant, structured feedback to improve your chances of landing your target job.
+**ResumeScope** is a lightweigth web application that helps users **analyse and optimise their resumes** for ATS (Applicant Tracking Systems) and recruiters using **AI-powered insights**. Upload your resume PDF and receive instant, structured feedback to improve your chances of landing your target job.
 
 ---
 
