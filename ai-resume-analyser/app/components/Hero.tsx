@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -34,10 +35,15 @@ export default function Hero() {
           transition={{ delay: 0.25 }}
           className="mt-10 flex justify-center"
         >
-          <button className="cursor-pointer active:scale-95 inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-primary-foreground font-medium shadow-lg hover:opacity-90 transition">
+          <Link
+            href="/analysis"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 
+               font-medium text-primary-foreground shadow-lg 
+               transition hover:opacity-90 active:scale-95"
+          >
             Analyze my resume
             <ArrowRight className="h-4 w-4" />
-          </button>
+          </Link>
         </motion.div>
       </div>
     </section>
