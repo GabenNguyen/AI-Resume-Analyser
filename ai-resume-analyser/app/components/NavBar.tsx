@@ -3,6 +3,7 @@
 import { Microscope } from "lucide-react";
 import { motion } from "framer-motion";
 import { ModeToggle } from "./ModeToggle";
+import Link from "next/link";
 
 export default function NavBar() {
   return (
@@ -17,10 +18,12 @@ export default function NavBar() {
         <div className="flex h-20 items-center justify-between">
           {/* LEFT: Logo */}
           <div className="flex items-center gap-2">
-            <Microscope className="h-6 w-6 text-foreground" />
-            <span className="text-2xl font-extrabold tracking-tight">
-              ResumeScope
-            </span>
+            <Link href="/" className="inline-flex gap-3">
+              <Microscope className="h-6 w-6 text-foreground" />
+              <span className="text-2xl font-extrabold tracking-tight">
+                ResumeScope
+              </span>
+            </Link>
           </div>
 
           {/* RIGHT: Actions */}
