@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 
 const steps = [
-  "Upload your resume (PDF or DOCX)",
+  "Upload your resume (PDF)",
   "AI analyzes structure, content & keywords",
   "Get instant feedback & improvement tips",
 ];
@@ -13,13 +13,13 @@ export default function HowItWorks() {
     <section className="mx-auto max-w-5xl px-6 text-center py-16">
       {/* Animated title */}
       <motion.h2
-        className="text-3xl font-bold tracking-tight"
+        className="text-4xl font-bold tracking-tight sm:text-5xl"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        How ResumeScope Works
+        How <span className="font-bold italic">ResumeScope</span> Works
       </motion.h2>
 
       {/* Animated steps */}
