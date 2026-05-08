@@ -20,10 +20,10 @@ const InsightCard = ({ title, items, tone }: Insight) => {
             ) : (
               <AlertTriangle className="h-5 w-5 text-amber-600" />
             )}
-            <h3 className="text-lg font-semibold">{title}</h3>
+            <h3 className="text-2xl font-bold">{title}</h3>
           </div>
           <Badge
-            variant={isPositive ? "outline" : "destructive"}
+            variant={isPositive ? "secondary" : "destructive"}
             className="text-sm"
           >
             {items.length} {items.length === 1 ? "item" : "items"}
@@ -46,7 +46,7 @@ const InsightCard = ({ title, items, tone }: Insight) => {
               >
                 {isPositive ? "✅" : "⚠️"}
               </span>
-              <p className="flex-1">{item}</p>
+              <p className="flex-1 text-lg">{item}</p>
             </motion.li>
           ))}
         </ul>
