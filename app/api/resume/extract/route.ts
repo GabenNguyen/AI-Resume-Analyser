@@ -18,7 +18,8 @@ export async function POST(req: Request) {
         // Smart parser (recommended by library)
         const parser = new PdfParse.SmartPDFParser({
             oversaturationFactor: 2.0,
-            enableFastPath: true
+            enableFastPath: true,
+            forceMethod: "workers"
         });
 
         const result = await parser.parse(pdfBuffer);
