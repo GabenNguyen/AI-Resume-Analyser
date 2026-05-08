@@ -73,7 +73,7 @@ Even if section titles are slightly different or poorly formatted.
         "strengths": [string],
         "improvements": [string],
         "missingKeywords": [string],
-        "summary": string
+        "suggestions": [string],
         }
 
         Rules:
@@ -81,6 +81,7 @@ Even if section titles are slightly different or poorly formatted.
         - Do NOT include markdown
         - Do NOT include code blocks
         - Output must be valid JSON only
+        - Use Australian English for any text in the JSON
         `;
         
         const response = await gemini.models.generateContent( {
