@@ -2,7 +2,7 @@
 
 [GitHub Repository](https://github.com/GabenNguyen/IntelliCheck.git)
 
-[Live Demo](https://resume-scope-phi.vercel.app) (Currently old version using `pdf-parse` due to the unsupported of the `pdf-parse-new` library on Vercel)
+[Live Demo](https://resume-scope-phi.vercel.app)
 
 **ResumeScope** is a lightweight web application that helps users **analyse and optimise their resumes** for ATS (Applicant Tracking Systems) and recruiters using **AI-powered insights**. Upload your resume PDF and receive instant, structured feedback to improve your chances of landing your target job.
 
