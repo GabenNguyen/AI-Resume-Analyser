@@ -112,31 +112,29 @@ export default function ResumeUploadPage() {
     };
 
     return (
-        <main className="relative min-h-screen pt-32 pb-16 px-6 flex flex-col items-center selection:bg-purple-500/30">
+        <main className="relative flex min-h-screen flex-col items-center px-6 pb-16 pt-32">
 
             {/* Background Decor */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden flex justify-center">
-                <div className="absolute top-0 w-full max-w-2xl h-125 bg-purple-500/10 dark:bg-purple-600/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen" />
-                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
-            </div>
+            <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[500px] bg-[radial-gradient(60%_60%_at_50%_0%,color-mix(in_oklch,var(--primary)_10%,transparent),transparent)]"
+            />
 
-            <div className="w-full max-w-3xl relative z-10 flex flex-col items-center">
+            <div className="relative z-10 flex w-full max-w-3xl flex-col items-center">
 
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="text-center mb-10"
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    className="mb-10 text-center"
                 >
-                    <div className="inline-flex items-center justify-center p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm mb-6">
-                        <ShieldCheck className="w-6 h-6 text-purple-600 dark:text-purple-400" />
-                    </div>
-                    <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
-                        Upload & <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">Analyze</span>
+                    <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
+                        Upload &amp; <span className="text-primary">analyse</span>
                     </h1>
-                    <p className="text-lg text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
-                        Drop your resume here. Our AI will instantly score it and offer actionable insights to boost your chances.
+                    <p className="mx-auto mt-3 max-w-xl text-base text-muted-foreground">
+                        Drop your resume below. Our AI scores it and returns
+                        actionable insights to boost your chances.
                     </p>
                 </motion.div>
 
@@ -144,37 +142,39 @@ export default function ResumeUploadPage() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1, duration: 0.5, ease: "easeOut" }}
-                    className="w-full rounded-[2.5rem] bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-800/50 backdrop-blur-2xl shadow-xl overflow-hidden"
+                    transition={{ delay: 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    className="w-full overflow-hidden rounded-2xl border border-border bg-card shadow-lg shadow-black/[0.04]"
                 >
-                    <div className="p-8 md:p-12">
+                    <div className="p-7 md:p-10">
 
                         {/* Inputs Section */}
-                        <div className="grid gap-6 mb-10">
+                        <div className="mb-10 grid gap-6">
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">Target Role <span className="text-red-500">*</span></label>
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        placeholder="e.g. Senior Frontend Engineer"
-                                        value={role}
-                                        onChange={(e) => setRole(e.target.value)}
-                                        className="w-full h-14 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-5 text-base placeholder:text-slate-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
-                                    />
-                                </div>
+                                <label htmlFor="role" className="ml-1 text-sm font-semibold text-foreground">
+                                    Target role <span className="text-destructive">*</span>
+                                </label>
+                                <input
+                                    id="role"
+                                    type="text"
+                                    placeholder="e.g. Senior Frontend Engineer"
+                                    value={role}
+                                    onChange={(e) => setRole(e.target.value)}
+                                    className="h-14 w-full rounded-xl border border-input bg-background px-5 text-base placeholder:text-muted-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/40"
+                                />
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">Job Description (Optional)</label>
-                                <div className="relative">
-                                    <textarea
-                                        placeholder="Paste the job description here for highly tailored feedback..."
-                                        value={jd}
-                                        onChange={(e) => setJd(e.target.value)}
-                                        rows={3}
-                                        className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-5 py-4 text-base placeholder:text-slate-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all resize-none"
-                                    />
-                                </div>
+                                <label htmlFor="jd" className="ml-1 text-sm font-semibold text-foreground">
+                                    Job description <span className="font-normal text-muted-foreground">(optional)</span>
+                                </label>
+                                <textarea
+                                    id="jd"
+                                    placeholder="Paste the job description for more tailored feedback..."
+                                    value={jd}
+                                    onChange={(e) => setJd(e.target.value)}
+                                    rows={3}
+                                    className="w-full rounded-xl border border-input bg-background px-5 py-4 text-base placeholder:text-muted-foreground transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/40 resize-none"
+                                />
                             </div>
                         </div>
 
@@ -183,12 +183,12 @@ export default function ResumeUploadPage() {
                             onDragOver={handleDragOver}
                             onDragLeave={handleDragLeave}
                             onDrop={handleDrop}
-                            className={`relative flex flex-col items-center justify-center p-12 rounded-3xl border-2 border-dashed transition-all cursor-pointer overflow-hidden 
+                            className={`relative flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-dashed p-10 transition-all
                 ${isHovering
-                                    ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20"
+                                    ? "border-primary bg-primary/5"
                                     : file
-                                        ? "border-green-500 bg-green-50/50 dark:bg-green-900/10"
-                                        : "border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-900"
+                                        ? "border-emerald-500 bg-emerald-500/5"
+                                        : "border-border bg-muted/40 hover:bg-muted/60"
                                 }`}
                         >
                             <input
@@ -207,33 +207,38 @@ export default function ResumeUploadPage() {
                             />
 
                             {file ? (
-                                <div className="flex flex-col items-center text-center space-y-4">
-                                    <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/50 flex items-center justify-center text-green-600 dark:text-green-400">
-                                        <CheckCircle2 className="w-8 h-8" />
+                                <div className="flex flex-col items-center space-y-3 text-center">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                                        <CheckCircle2 className="h-6 w-6" />
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{file.name}</h3>
-                                        <p className="text-sm text-slate-500">Ready for analysis</p>
+                                        <h3 className="text-base font-semibold">{file.name}</h3>
+                                        <p className="text-sm text-muted-foreground">Ready for analysis</p>
                                     </div>
                                     <button
+                                        type="button"
                                         onClick={(e) => {
                                             e.preventDefault();
                                             setFile(null);
                                             if (fileInputRef.current) fileInputRef.current.value = "";
                                         }}
-                                        className="mt-2 inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-medium hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-900/20 dark:hover:text-red-400 dark:hover:border-red-800 transition-colors"
+                                        className="mt-1 inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm font-medium transition-colors hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30"
                                     >
-                                        <X className="w-4 h-4" /> Remove File
+                                        <X className="h-4 w-4" /> Remove file
                                     </button>
                                 </div>
                             ) : (
-                                <div className="flex flex-col items-center text-center space-y-3 pointer-events-none">
-                                    <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-2 transition-colors ${isHovering ? "bg-purple-200 dark:bg-purple-800" : "bg-white dark:bg-slate-900 shadow-sm"
+                                <div className="pointer-events-none flex flex-col items-center space-y-2.5 text-center">
+                                    <div className={`mb-1 flex h-12 w-12 items-center justify-center rounded-full transition-colors ${isHovering ? "bg-primary/15 text-primary" : "bg-card text-muted-foreground shadow-sm"
                                         }`}>
-                                        <UploadCloud className={`w-8 h-8 ${isHovering ? "text-purple-700 dark:text-purple-300" : "text-slate-400"}`} />
+                                        <UploadCloud className="h-6 w-6" />
                                     </div>
-                                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Click to upload or drag and drop</h3>
-                                    <p className="text-sm text-slate-500 max-w-xs">PDF format only. Maximum file size 5MB.</p>
+                                    <h3 className="text-base font-semibold">
+                                        Click to upload or drag and drop
+                                    </h3>
+                                    <p className="max-w-xs text-sm text-muted-foreground">
+                                        PDF format only &bull; up to 5MB
+                                    </p>
                                 </div>
                             )}
                         </label>
@@ -242,35 +247,35 @@ export default function ResumeUploadPage() {
                         <button
                             onClick={handleSubmit}
                             disabled={!canAnalyse || isAnalysing}
-                            className={`mt-8 w-full h-14 rounded-full font-bold text-lg flex items-center justify-center gap-2 transition-all ${canAnalyse && !isAnalysing
-                                ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:scale-[1.02] shadow-xl hover:shadow-2xl"
-                                : "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed"
+                            className={`mt-7 flex h-11 w-full items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${canAnalyse && !isAnalysing
+                                ? "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90"
+                                : "cursor-not-allowed bg-muted text-muted-foreground"
                                 }`}
                         >
                             {isAnalysing ? (
                                 <>
-                                    <div className="w-5 h-5 rounded-full border-2 border-currentColor border-t-transparent animate-spin" />
+                                    <span className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent" />
                                     Processing...
                                 </>
-                            ) : "Analyze Resume"}
+                            ) : (
+                                "Analyse resume"
+                            )}
                         </button>
                     </div>
 
                     {/* Footer Features */}
-                    <div className="bg-slate-50 dark:bg-slate-950 border-t border-slate-200/50 dark:border-slate-800/50 p-6 md:px-12">
-                        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                            {features.map((item, idx) => (
-                                <div key={idx} className="flex items-center gap-3">
-                                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-                                        <item.icon className="w-4 h-4 text-slate-500" />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 leading-none mb-1">{item.title}</span>
-                                        <span className="text-xs text-slate-500 leading-none">{item.desc}</span>
-                                    </div>
+                    <div className="flex flex-col gap-4 border-t border-border bg-muted/30 px-7 py-5 sm:flex-row sm:items-center sm:justify-between md:px-10">
+                        {features.map((item, idx) => (
+                            <div key={idx} className="flex items-center gap-3">
+                                <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-card">
+                                    <item.icon className="h-4 w-4 text-muted-foreground" />
                                 </div>
-                            ))}
-                        </div>
+                                <div className="flex flex-col">
+                                    <span className="text-sm font-semibold leading-none">{item.title}</span>
+                                    <span className="mt-1 text-xs leading-none text-muted-foreground">{item.desc}</span>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </motion.div>
 

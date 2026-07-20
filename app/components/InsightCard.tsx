@@ -42,9 +42,13 @@ const InsightCard = ({ title, items, tone }: Insight) => {
             >
               {/* Icon prefix */}
               <span
-                className={isPositive ? "text-green-600" : "text-amber-600"}
+                className={`mt-0.5 shrink-0 ${isPositive ? "text-green-600" : "text-amber-600"}`}
               >
-                {isPositive ? "✅" : "⚠️"}
+                {isPositive ? (
+                  <CheckCircle className="h-4 w-4" />
+                ) : (
+                  <AlertTriangle className="h-4 w-4" />
+                )}
               </span>
               <p className="flex-1 text-lg">{item}</p>
             </motion.li>

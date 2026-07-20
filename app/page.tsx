@@ -1,210 +1,273 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, FileText, CheckCircle, Zap, ShieldCheck, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  FileCheck2,
+  Target,
+  Wand2,
+  Sparkles,
+  ShieldCheck,
+} from "lucide-react";
+import { gsap, useGSAP } from "@/lib/gsap";
+import Reveal from "@/components/Reveal";
+import { fadeUp, fadeIn } from "@/lib/motion";
+
+const features = [
+  {
+    icon: FileCheck2,
+    title: "Instant ATS scoring",
+    desc: "See exactly how Applicant Tracking Systems parse your resume and surface hidden formatting errors before you apply.",
+  },
+  {
+    icon: Target,
+    title: "Keyword optimization",
+    desc: "Match your resume against any job description and surface the missing skills recruiters are actively screening for.",
+  },
+  {
+    icon: Wand2,
+    title: "Action-driven feedback",
+    desc: "Get line-by-line rewrites that turn vague bullet points into measurable, impact-led achievements.",
+  },
+];
 
 export default function HomePage() {
-  const features = [
-    {
-      icon: Zap,
-      title: "Instant ATS Scoring",
-      desc: "See exactly how Applicant Tracking Systems see your resume. Uncover hidden parsing errors before you apply."
+  const previewRef = useRef<HTMLDivElement>(null);
+
+  // GSAP: scroll-driven draw-in + progress bar fill for the dashboard mock.
+  useGSAP(
+    () => {
+      const el = previewRef.current;
+      if (!el) return;
+
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const bars = el.querySelectorAll<HTMLElement>("[data-bar]");
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: el, start: "top 80%", once: true },
+        });
+        tl.from(el, {
+          opacity: 0,
+          y: 40,
+          scale: 0.98,
+          duration: 0.8,
+          ease: "power3.out",
+        }).from(
+          bars,
+          {
+            scaleX: 0,
+            transformOrigin: "left center",
+            duration: 1,
+            ease: "power2.out",
+            stagger: 0.12,
+          },
+          "-=0.4"
+        );
+      });
+
+      return () => mm.revert();
     },
-    {
-      icon: ShieldCheck,
-      title: "Keyword Optimization",
-      desc: "Match your resume against any job description. We highlight the missing skills that recruiters are looking for."
-    },
-    {
-      icon: Sparkles,
-      title: "Action-Driven Feedback",
-      desc: "Get line-by-line AI suggestions to transform weak bullet points into impactful, metric-driven achievements."
-    }
-  ];
+    { scope: previewRef }
+  );
 
   return (
-    <main className="relative min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 selection:bg-purple-500/30 overflow-hidden">
+    <main className="relative min-h-screen overflow-hidden">
+      {/* Subtle ambient backdrop */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[480px] bg-[radial-gradient(55%_45%_at_50%_0%,color-mix(in_oklch,var(--primary)_9%,transparent),transparent)]"
+      />
 
-      {/* Dynamic Aurora Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-[100%] bg-purple-500/20 blur-[120px] dark:bg-purple-600/20 mix-blend-multiply dark:mix-blend-screen animate-pulse duration-10000" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-[100%] bg-blue-500/20 blur-[120px] dark:bg-blue-600/20 mix-blend-multiply dark:mix-blend-screen animate-pulse duration-10000 delay-5000" />
-      </div>
-
-      {/* Grid pattern overlay */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none mix-blend-overlay"></div>
-
-
-      {/* HERO SECTION */}
-      <section className="relative z-10 pt-20 pb-32 md:pt-32 md:pb-40 px-6 max-w-7xl mx-auto flex flex-col items-center text-center">
-
+      {/* HERO (framer-motion — immediate, above the fold) */}
+      <section className="relative mx-auto flex max-w-3xl flex-col items-center px-6 pb-20 pt-40 text-center md:pt-48">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md shadow-sm mb-10"
+          variants={fadeIn}
+          initial="hidden"
+          animate="visible"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-1.5 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur"
         >
-          <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">AI-Powered Resume Review</span>
+          <ShieldCheck className="h-3.5 w-3.5 text-primary" />
+          AI-powered resume review
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-          className="text-5xl sm:text-7xl font-extrabold tracking-tight max-w-4xl leading-[1.1]"
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="mt-6 text-balance text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl"
         >
-          Land your dream job with a <br className="hidden sm:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">
-            flawless resume.
-          </span>
+          Land more interviews with a{" "}
+          <span className="text-primary">resume that clears the bots.</span>
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-          className="mt-8 text-lg sm:text-xl text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed"
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.1 }}
+          className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground"
         >
-          Stop getting rejected by automated systems. ResumeScope scans your CV, scores it against industry standards, and gives you actionable feedback to get you hired.
+          ResumeScope scores your CV against real ATS logic, pinpoints the gaps,
+          and gives you concrete edits — so you apply with confidence.
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-          className="mt-12 flex flex-col sm:flex-row items-center gap-4"
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.2 }}
+          className="mt-9 flex flex-col items-center gap-4 sm:flex-row"
         >
           <Link
             href="/analysis"
-            className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-slate-900 dark:bg-white px-8 py-4 text-base font-semibold text-white dark:text-slate-900 shadow-2xl transition-all hover:scale-105 active:scale-95"
+            className="group inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors duration-200 hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
-            <span className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 opacity-0 transition-opacity group-hover:opacity-10 dark:from-purple-400 dark:to-blue-400"></span>
-            Upload your resume
-            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            Analyze your resume
+            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
-          <span className="text-sm text-slate-500 dark:text-slate-400">100% free &bull; No sign up required</span>
+          <span className="text-sm text-muted-foreground">
+            Free &bull; No sign-up required
+          </span>
         </motion.div>
       </section>
 
-      {/* DASHBOARD PREVIEW */}
-      <section className="relative z-10 max-w-6xl mx-auto px-6 pb-32">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="rounded-[2.5rem] p-4 bg-white/40 dark:bg-slate-900/40 border border-slate-200/50 dark:border-slate-800/50 backdrop-blur-xl shadow-2xl overflow-hidden"
+      {/* DASHBOARD PREVIEW (GSAP scroll-driven) */}
+      <section className="relative mx-auto max-w-4xl px-6 pb-24">
+        <div
+          ref={previewRef}
+          className="overflow-hidden rounded-2xl border border-border bg-card shadow-lg shadow-black/[0.04]"
         >
-          <div className="rounded-[2rem] bg-slate-100 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800/80 overflow-hidden flex flex-col md:flex-row">
-            {/* Sidebar Mock */}
-            <div className="w-full md:w-1/3 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-8 flex flex-col gap-6">
-              <div>
-                <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Overall Score</h3>
-                <div className="flex items-end gap-2">
-                  <span className="text-5xl font-bold text-green-500">85</span>
-                  <span className="text-xl font-medium text-slate-400 mb-1">/ 100</span>
-                </div>
+          <div className="grid md:grid-cols-[0.85fr_1.15fr]">
+            {/* Sidebar mock */}
+            <div className="border-b border-border bg-muted/40 p-8 md:border-b-0 md:border-r">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Overall ATS score
+              </p>
+              <div className="mt-2 flex items-end gap-1.5">
+                <span className="text-5xl font-semibold tracking-tight">85</span>
+                <span className="mb-1 text-base font-medium text-muted-foreground">
+                  / 100
+                </span>
               </div>
-              <div className="space-y-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">ATS Parsability</span>
-                  <span className="text-sm font-bold text-green-500">92%</span>
-                </div>
-                <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                  <div className="w-[92%] h-full bg-green-500 rounded-full" />
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Impact Metrics</span>
-                  <span className="text-sm font-bold text-amber-500">65%</span>
-                </div>
-                <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                  <div className="w-[65%] h-full bg-amber-500 rounded-full" />
-                </div>
+
+              <div className="mt-8 space-y-6">
+                {[
+                  { label: "ATS parsability", value: 92, tone: "bg-emerald-500" },
+                  { label: "Impact & metrics", value: 65, tone: "bg-amber-500" },
+                ].map((row) => (
+                  <div key={row.label}>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="font-medium">{row.label}</span>
+                      <span className="font-semibold tabular-nums">{row.value}%</span>
+                    </div>
+                    <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-border">
+                      <div
+                        data-bar
+                        className={`h-full rounded-full ${row.tone}`}
+                        style={{ width: `${row.value}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Main Content Mock */}
-            <div className="flex-1 p-8 bg-slate-50 dark:bg-slate-950/50">
-              <div className="space-y-6">
-                <div className="flex items-center gap-3 mb-8">
-                  <Sparkles className="w-5 h-5 text-purple-500" />
-                  <h3 className="font-semibold text-lg">AI Suggestions</h3>
-                </div>
+            {/* Suggestions mock */}
+            <div className="p-8">
+              <div className="mb-6 flex items-center gap-2.5">
+                <Sparkles className="h-4 w-4 text-primary" />
+                <h3 className="text-sm font-semibold">AI suggestions</h3>
+              </div>
 
-                <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden">
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-400" />
-                  <p className="text-sm text-slate-500 mb-2">Original Bullet</p>
-                  <p className="text-slate-800 dark:text-slate-200 line-through decoration-red-400/50">Responsible for managing team of 5 software engineers.</p>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 border border-green-200 dark:border-green-800 shadow-sm relative overflow-hidden mt-4">
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-500" />
-                  <p className="text-sm text-green-600 dark:text-green-400 font-medium mb-2 flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4" /> Recommended Upgrade
+              <div className="space-y-3">
+                <div className="relative overflow-hidden rounded-lg border border-border bg-card p-4 pl-5">
+                  <span className="absolute inset-y-0 left-0 w-1 bg-destructive/70" />
+                  <p className="text-xs font-medium text-muted-foreground">
+                    Original
                   </p>
-                  <p className="text-green-900 dark:text-green-100 font-medium tracking-tight">Directed a team of 5 engineers to deliver 3 high-impact features, increasing user retention by 15%.</p>
+                  <p className="mt-1 text-sm text-foreground/70 line-through decoration-destructive/40">
+                    Responsible for managing a team of 5 engineers.
+                  </p>
+                </div>
+
+                <div className="relative overflow-hidden rounded-lg border border-emerald-500/30 bg-emerald-500/[0.04] p-4 pl-5">
+                  <span className="absolute inset-y-0 left-0 w-1 bg-emerald-500" />
+                  <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                    Recommended
+                  </p>
+                  <p className="mt-1 text-sm font-medium text-foreground">
+                    Led 5 engineers to ship 3 features, lifting retention 15%.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
+
+        <p className="mt-4 text-center text-xs text-muted-foreground">
+          Example output — your results will reflect your own resume.
+        </p>
       </section>
 
-      {/* FEATURES SECTION */}
-      <section className="relative z-10 py-24 sm:py-32 bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Why use ResumeScope?</h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400">We give you the tools and insights to craft a resume that practically guarantees an interview.</p>
-          </div>
+      {/* FEATURES (GSAP scroll reveal + stagger) */}
+      <section className="border-t border-border bg-muted/30 py-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <Reveal className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-semibold tracking-tight">
+              A focused toolkit for fixing your resume
+            </h2>
+            <p className="mt-3 text-base text-muted-foreground">
+              Concrete feedback, not vague advice — so you can ship edits today.
+            </p>
+          </Reveal>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <motion.div
+          <Reveal
+            stagger
+            className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-3"
+          >
+            {features.map((feature) => (
+              <div
                 key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group p-8 rounded-3xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-purple-500/50 transition-colors"
+                className="group bg-card p-7 transition-colors duration-200 hover:bg-muted/40"
               >
-                <div className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
-                  <feature.icon className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <feature.icon className="h-[18px] w-[18px]" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{feature.desc}</p>
-              </motion.div>
+                <h3 className="mt-5 text-base font-semibold">{feature.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {feature.desc}
+                </p>
+              </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* CTA SECTION */}
-      <section className="relative z-10 py-32 px-6">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Your next job is waiting.</h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            Join thousands of job seekers who have successfully navigated the hiring process with a resume that stands out.
+      {/* CTA (GSAP scroll reveal) */}
+      <section className="mx-auto max-w-3xl px-6 py-20 text-center">
+        <Reveal>
+          <h2 className="text-3xl font-semibold tracking-tight">
+            Your next interview starts here.
+          </h2>
+          <p className="mx-auto mt-3 max-w-md text-base text-muted-foreground">
+            Upload a PDF and get a scored, actionable breakdown in under a minute.
           </p>
-          <div className="pt-6">
-            <Link
-              href="/analysis"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-purple-600 px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:bg-purple-700 hover:scale-105 active:scale-95"
-            >
-              Analyze Your Resume Now
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
-        </div>
+          <Link
+            href="/analysis"
+            className="group mt-7 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors duration-200 hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            Analyze your resume
+            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+          </Link>
+        </Reveal>
       </section>
 
-      {/* FOOTER */}
-      <footer className="mt-5 border-t border-slate-200 dark:border-slate-800 text-center">
-        <p className="text-slate-500 text-sm">&copy; {new Date().getFullYear()} ResumeScope. All rights reserved.</p>
+      <footer className="border-t border-border py-8 text-center">
+        <p className="text-sm text-muted-foreground">
+          &copy; {new Date().getFullYear()} ResumeScope. All rights reserved.
+        </p>
       </footer>
     </main>
   );
