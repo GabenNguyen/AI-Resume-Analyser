@@ -6,8 +6,6 @@ import {
   CheckCircle2,
   AlertTriangle,
   Hash,
-  Sparkles,
-  TrendingUp,
   RefreshCcw,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -27,8 +25,8 @@ const ScoreRing = ({ score }: { score: number }) => {
   const numRef = useRef<HTMLSpanElement>(null);
 
   let colorClass = "text-destructive";
-  if (score >= 85) colorClass = "text-emerald-500";
-  else if (score >= 75) colorClass = "text-emerald-400";
+  if (score >= 85) colorClass = "text-emerald-600 dark:text-emerald-400";
+  else if (score >= 75) colorClass = "text-emerald-500 dark:text-emerald-400";
   else if (score >= 50) colorClass = "text-amber-500";
 
   // GSAP: count the number up to the final score.
@@ -85,11 +83,11 @@ const ScoreRing = ({ score }: { score: number }) => {
       <div className="absolute flex flex-col items-center justify-center">
         <span
           ref={numRef}
-          className="text-5xl font-bold tracking-tighter text-foreground tabular-nums"
+          className="font-display text-6xl leading-none text-foreground tabular-nums"
         >
           {score}
         </span>
-        <span className="mt-1 text-sm font-medium uppercase tracking-widest text-muted-foreground">
+        <span className="mt-2 font-mono text-xs text-muted-foreground">
           / 100
         </span>
       </div>
@@ -115,17 +113,17 @@ function ResultContent() {
     if (score >= 85)
       return {
         text: "Excellent — you're job-ready",
-        color: "text-emerald-600 border-emerald-500/30 bg-emerald-500/10 dark:text-emerald-400",
+        color: "text-emerald-700 border-emerald-500/30 bg-emerald-500/10 dark:text-emerald-400",
       };
     if (score >= 75)
       return {
         text: "Good — minor tweaks needed",
-        color: "text-emerald-600 border-emerald-500/30 bg-emerald-500/10 dark:text-emerald-400",
+        color: "text-emerald-700 border-emerald-500/30 bg-emerald-500/10 dark:text-emerald-400",
       };
     if (score >= 50)
       return {
         text: "Fair — needs revision",
-        color: "text-amber-600 border-amber-500/30 bg-amber-500/10 dark:text-amber-400",
+        color: "text-amber-700 border-amber-500/30 bg-amber-500/10 dark:text-amber-400",
       };
     return {
       text: "Poor — likely ATS rejection",
@@ -136,31 +134,23 @@ function ResultContent() {
   const verdict = getATSScoreVerdict(analysis.atsScore);
 
   return (
-    <main className="relative min-h-screen px-6 pb-24 pt-32">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[500px] bg-[radial-gradient(60%_60%_at_50%_0%,color-mix(in_oklch,var(--primary)_10%,transparent),transparent)]"
-      />
-
+    <main className="min-h-screen px-6 pb-24 pt-24">
       <div className="relative z-10 mx-auto max-w-4xl space-y-12">
         {/* Header */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="space-y-4 text-center"
+          className="space-y-5 text-center"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-1.5 text-sm font-medium backdrop-blur">
-            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Target role
-            </span>
-            <span className="text-sm font-bold">{role?.toUpperCase()}</span>
+          <div className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-1.5 text-sm">
+            <span className="text-muted-foreground">Target role</span>
+            <span className="font-semibold">{role}</span>
           </div>
-           <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
+          <h1 className="font-display text-5xl leading-tight tracking-tight md:text-6xl">
             Analysis <span className="text-primary">complete</span>
           </h1>
-
-          <div className="mx-auto flex max-w-xl items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-left text-sm text-amber-700 dark:text-amber-400">
+          <div className="mx-auto flex max-w-xl items-start gap-2.5 rounded-md border border-amber-500/25 bg-amber-500/[0.06] p-4 text-left text-sm text-amber-800 dark:text-amber-400">
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
             <p>
               Results are for reference only and may not be 100% accurate. Review
@@ -169,25 +159,28 @@ function ResultContent() {
           </div>
         </motion.div>
 
-        {/* Hero Score Card */}
+        {/* Score */}
         <motion.div
           variants={scaleIn}
           initial="hidden"
           animate="visible"
           transition={{ delay: 0.1 }}
-          className="flex flex-col items-center justify-between gap-8 overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-lg shadow-black/[0.04] md:flex-row md:p-10"
+          className="flex flex-col items-center justify-between gap-8 overflow-hidden rounded-lg border border-border bg-card p-8 shadow-[0_1px_2px_oklch(0_0_0/0.04)] md:flex-row md:p-10"
         >
           <div className="flex-1 space-y-4 text-center md:text-left">
-            <h2 className="text-xl font-semibold tracking-tight md:text-2xl">
-              ATS compatibility score
+            <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+              ATS compatibility
+            </p>
+            <h2 className="font-display text-3xl leading-tight tracking-tight md:text-4xl">
+              How well does your resume read?
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-sm leading-relaxed text-muted-foreground">
               Based on industry-standard applicant tracking systems, this score
               reflects how well your resume matches the target role and avoids
               common parsing pitfalls.
             </p>
             <div
-              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold ${verdict.color}`}
+              className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm font-semibold ${verdict.color}`}
             >
               {verdict.text}
             </div>
@@ -197,46 +190,46 @@ function ResultContent() {
           </div>
         </motion.div>
 
-        {/* Strengths & Improvements */}
-        <Reveal stagger className="grid gap-6 md:grid-cols-2">
-          <div className="flex h-full flex-col rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.04] p-7">
+        {/* Strengths & improvements */}
+        <Reveal stagger className="grid gap-5 md:grid-cols-2">
+          <div className="flex h-full flex-col rounded-lg border border-border bg-card p-7">
             <div className="mb-5 flex items-center gap-3">
-              <div className="rounded-lg bg-emerald-500/10 p-2 text-emerald-600 dark:text-emerald-400">
+              <div className="rounded-md bg-emerald-500/10 p-2 text-emerald-700 dark:text-emerald-400">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold">What you did well</h3>
-                <p className="mt-0.5 text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                <h3 className="text-lg font-semibold tracking-tight">What you did well</h3>
+                <p className="mt-0.5 text-sm text-muted-foreground">
                   {analysis.strengths.length} strengths identified
                 </p>
               </div>
             </div>
             <ul className="flex-1 space-y-3">
               {analysis.strengths.map((item: string, i: number) => (
-                <li key={i} className="flex items-start gap-3">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500" />
+                <li key={i} className="flex items-start gap-3 text-sm leading-relaxed">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
                   <span className="text-foreground/90">{item}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="flex h-full flex-col rounded-2xl border border-amber-500/20 bg-amber-500/[0.04] p-7">
+          <div className="flex h-full flex-col rounded-lg border border-border bg-card p-7">
             <div className="mb-5 flex items-center gap-3">
-              <div className="rounded-lg bg-amber-500/10 p-2 text-amber-600 dark:text-amber-400">
+              <div className="rounded-md bg-amber-500/10 p-2 text-amber-700 dark:text-amber-400">
                 <AlertTriangle className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold">Areas to improve</h3>
-                <p className="mt-0.5 text-sm font-medium text-amber-600 dark:text-amber-400">
+                <h3 className="text-lg font-semibold tracking-tight">Areas to improve</h3>
+                <p className="mt-0.5 text-sm text-muted-foreground">
                   {analysis.improvements.length} suggestions
                 </p>
               </div>
             </div>
             <ul className="flex-1 space-y-3">
               {analysis.improvements.map((item: string, i: number) => (
-                <li key={i} className="flex items-start gap-3">
-                  <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
+                <li key={i} className="flex items-start gap-3 text-sm leading-relaxed">
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
                   <span className="text-foreground/90">{item}</span>
                 </li>
               ))}
@@ -244,76 +237,69 @@ function ResultContent() {
           </div>
         </Reveal>
 
-        {/* Missing Keywords */}
-        <Reveal className="rounded-2xl border border-border bg-card p-7 shadow-sm">
+        {/* Missing keywords */}
+        <Reveal className="rounded-lg border border-border bg-card p-7">
           <div className="mb-5 flex items-center gap-3">
-            <div className="rounded-lg bg-primary/10 p-2 text-primary">
+            <div className="rounded-md bg-primary/10 p-2 text-primary">
               <Hash className="h-5 w-5" />
             </div>
             <h3 className="text-lg font-semibold tracking-tight">Missing keywords</h3>
           </div>
-          <p className="mb-6 text-muted-foreground">
+          <p className="mb-6 text-sm text-muted-foreground">
             Weaving these in naturally can meaningfully improve your ATS match rate.
           </p>
-          <div className="flex flex-wrap gap-2.5">
+          <div className="flex flex-wrap gap-2">
             {analysis.missingKeywords.map((keyword: string) => (
               <span
                 key={keyword}
-                className="rounded-lg border border-border bg-muted/50 px-3.5 py-1.5 text-sm font-semibold text-foreground/90"
+                className="rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium"
               >
                 {keyword}
               </span>
             ))}
             {analysis.missingKeywords.length === 0 && (
-              <span className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+              <span className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-sm font-medium text-emerald-700 dark:text-emerald-400">
                 No major keywords missing — great job.
               </span>
             )}
           </div>
         </Reveal>
 
-        {/* Actionable Suggestions */}
-        <Reveal className="relative overflow-hidden rounded-2xl bg-[oklch(0.21_0.02_264.131)] p-7 text-white md:p-10">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-10 -top-10 opacity-[0.05]"
-          >
-            <TrendingUp className="h-48 w-48" />
+        {/* Actionable suggestions */}
+        <Reveal className="rounded-lg bg-foreground p-7 text-background md:p-10">
+          <div className="mb-7 flex items-center gap-3">
+            <span className="font-mono text-[11px] uppercase tracking-wider text-background/60">
+              Priority edits
+            </span>
+            <span className="h-px flex-1 bg-background/15" aria-hidden />
           </div>
-          <div className="relative z-10">
-            <div className="mb-6 flex items-center gap-3">
-              <div className="rounded-lg bg-primary/20 p-2 text-primary">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <h3 className="text-xl font-semibold tracking-tight md:text-2xl">
-                Actionable suggestions
-              </h3>
-            </div>
-            <ol className="space-y-3">
-              {analysis.suggestions.map((suggestion: string, index: number) => (
-                <li
-                  key={index}
-                  className="flex gap-4 rounded-xl border border-white/10 bg-white/5 p-4"
-                >
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/25 text-sm font-semibold text-primary">
-                    {index + 1}
-                  </span>
-                  <p className="mt-0.5 leading-relaxed text-white/80">
-                    {suggestion}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </div>
+          <h3 className="font-display text-3xl leading-tight tracking-tight md:text-4xl">
+            Actionable suggestions
+          </h3>
+          <ol className="mt-7 space-y-3">
+            {analysis.suggestions.map((suggestion: string, index: number) => (
+              <li
+                key={index}
+                className="flex gap-4 rounded-md border border-background/12 bg-background/[0.05] p-4"
+              >
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-background/10 font-mono text-xs font-medium">
+                  {index + 1}
+                </span>
+                <p className="mt-0.5 text-sm leading-relaxed text-background/80">
+                  {suggestion}
+                </p>
+              </li>
+            ))}
+          </ol>
         </Reveal>
 
         {/* Footer CTA */}
         <Reveal className="flex justify-center">
           <Link
             href="/analysis"
-            className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-6 py-3 font-semibold shadow-sm transition-colors duration-200 hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-5 py-3 text-sm font-semibold transition-colors duration-200 hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
-            <RefreshCcw className="h-5 w-5" />
+            <RefreshCcw className="h-4 w-4" />
             Upload a new resume
           </Link>
         </Reveal>

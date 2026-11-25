@@ -1,14 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { DM_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import NavBar from "./components/NavBar";
 import ThemeProvider from "./components/ThemeProvider";
 import { ToastContainer } from "react-toastify";
 import { AnalysisProvider } from "./context/analysisStore";
 
-const inter = Inter({
+const sans = DM_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const display = Instrument_Serif({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
@@ -28,7 +35,7 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body
           suppressHydrationWarning
-          className={`${inter.variable} font-sans antialiased`}
+          className={`${sans.variable} ${display.variable} font-sans antialiased`}
         >
           <ToastContainer position="bottom-right" />
 

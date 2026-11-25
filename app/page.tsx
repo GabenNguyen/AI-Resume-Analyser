@@ -3,40 +3,31 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import {
-  ArrowRight,
-  FileCheck2,
-  Target,
-  Wand2,
-  Sparkles,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import Reveal from "@/components/Reveal";
 import { fadeUp, fadeIn } from "@/lib/motion";
+import Footer from "./components/Footer";
 
 const features = [
   {
-    icon: FileCheck2,
-    title: "Instant ATS scoring",
-    desc: "See exactly how Applicant Tracking Systems parse your resume and surface hidden formatting errors before you apply.",
+    title: "ATS parsability",
+    desc: "See exactly how applicant tracking systems read your file, and catch the formatting that gets you filtered out before a human ever looks.",
   },
   {
-    icon: Target,
-    title: "Keyword optimization",
-    desc: "Match your resume against any job description and surface the missing skills recruiters are actively screening for.",
+    title: "Keyword coverage",
+    desc: "Compare your resume with a job description and find the qualifications a screener expects but cannot find.",
   },
   {
-    icon: Wand2,
-    title: "Action-driven feedback",
-    desc: "Get line-by-line rewrites that turn vague bullet points into measurable, impact-led achievements.",
+    title: "Rewrite guidance",
+    desc: "Turn vague duties into specific, measurable achievements with line-by-line edits you can paste straight in.",
   },
 ];
 
 export default function HomePage() {
   const previewRef = useRef<HTMLDivElement>(null);
 
-  // GSAP: scroll-driven draw-in + progress bar fill for the dashboard mock.
+  // GSAP: scroll-driven draw-in + progress bar fill for the report preview.
   useGSAP(
     () => {
       const el = previewRef.current;
@@ -50,20 +41,19 @@ export default function HomePage() {
         });
         tl.from(el, {
           opacity: 0,
-          y: 40,
-          scale: 0.98,
-          duration: 0.8,
+          y: 28,
+          duration: 0.7,
           ease: "power3.out",
         }).from(
           bars,
           {
             scaleX: 0,
             transformOrigin: "left center",
-            duration: 1,
+            duration: 0.9,
             ease: "power2.out",
             stagger: 0.12,
           },
-          "-=0.4"
+          "-=0.35"
         );
       });
 
@@ -73,96 +63,115 @@ export default function HomePage() {
   );
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      {/* Subtle ambient backdrop */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[480px] bg-[radial-gradient(55%_45%_at_50%_0%,color-mix(in_oklch,var(--primary)_9%,transparent),transparent)]"
-      />
+    <main className="min-h-screen overflow-hidden">
+      {/* HERO — editorial split: argument on the left, evidence on the right */}
+      <section className="relative mx-auto max-w-6xl px-6 pb-20 pt-20 md:pt-28">
+        <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+          <div>
+            <motion.div
+              variants={fadeIn}
+              initial="hidden"
+              animate="visible"
+              className="flex items-center gap-3"
+            >
+              <span className="h-px w-8 bg-primary" aria-hidden />
+              <span className="text-sm font-medium text-muted-foreground">
+                Resume analysis, grounded in evidence
+              </span>
+            </motion.div>
 
-      {/* HERO (framer-motion — immediate, above the fold) */}
-      <section className="relative mx-auto flex max-w-3xl flex-col items-center px-6 pb-20 pt-40 text-center md:pt-48">
-        <motion.div
-          variants={fadeIn}
-          initial="hidden"
-          animate="visible"
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-1.5 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur"
-        >
-          <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-          AI-powered resume review
-        </motion.div>
+            <motion.h1
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              className="mt-7 font-display text-5xl leading-[1.08] tracking-tight sm:text-6xl lg:text-7xl"
+            >
+              See your resume the way an ATS sees it.
+            </motion.h1>
 
-        <motion.h1
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mt-6 text-balance text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl"
-        >
-          Land more interviews with a{" "}
-          <span className="text-primary">resume that clears the bots.</span>
-        </motion.h1>
+            <motion.p
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.1 }}
+              className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
+            >
+              ResumeScope scores your CV against real applicant-tracking logic,
+              shows what gets lost in translation, and tells you exactly what
+              to fix first.
+            </motion.p>
 
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          transition={{ delay: 0.1 }}
-          className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground"
-        >
-          ResumeScope scores your CV against real ATS logic, pinpoints the gaps,
-          and gives you concrete edits — so you apply with confidence.
-        </motion.p>
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.2 }}
+              className="mt-9 flex flex-col items-start gap-4 sm:flex-row sm:items-center"
+            >
+              <Link
+                href="/analysis"
+                className="group inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors duration-200 hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              >
+                Analyse my resume
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </Link>
+              <span className="text-sm text-muted-foreground">
+                Free &bull; No sign-up required
+              </span>
+            </motion.div>
 
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          transition={{ delay: 0.2 }}
-          className="mt-9 flex flex-col items-center gap-4 sm:flex-row"
-        >
-          <Link
-            href="/analysis"
-            className="group inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors duration-200 hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            <div className="mt-12 flex flex-wrap gap-x-8 gap-y-3 border-t border-border pt-6 text-sm text-muted-foreground">
+              <span>ATS score</span>
+              <span>Keyword match</span>
+              <span>Rewrite edits</span>
+            </div>
+          </div>
+
+          {/* REPORT PREVIEW */}
+          <div
+            ref={previewRef}
+            className="overflow-hidden rounded-lg border border-border bg-card shadow-[0_1px_2px_oklch(0_0_0/0.04),0_18px_48px_-24px_oklch(0_0_0/0.22)]"
           >
-            Analyze your resume
-            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-          </Link>
-          <span className="text-sm text-muted-foreground">
-            Free &bull; No sign-up required
-          </span>
-        </motion.div>
-      </section>
+            <div className="flex items-center justify-between border-b border-border bg-muted/60 px-6 py-3.5">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                ATS readiness report
+              </span>
+              <span className="font-mono text-[11px] text-muted-foreground">
+                PDF &middot; parsed
+              </span>
+            </div>
 
-      {/* DASHBOARD PREVIEW (GSAP scroll-driven) */}
-      <section className="relative mx-auto max-w-4xl px-6 pb-24">
-        <div
-          ref={previewRef}
-          className="overflow-hidden rounded-2xl border border-border bg-card shadow-lg shadow-black/[0.04]"
-        >
-          <div className="grid md:grid-cols-[0.85fr_1.15fr]">
-            {/* Sidebar mock */}
-            <div className="border-b border-border bg-muted/40 p-8 md:border-b-0 md:border-r">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Overall ATS score
-              </p>
-              <div className="mt-2 flex items-end gap-1.5">
-                <span className="text-5xl font-semibold tracking-tight">85</span>
-                <span className="mb-1 text-base font-medium text-muted-foreground">
-                  / 100
+            <div className="p-6 md:p-8">
+              <div className="flex items-end justify-between gap-4">
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Overall score
+                  </p>
+                  <div className="mt-1 flex items-baseline gap-2">
+                    <span className="font-display text-6xl leading-none">85</span>
+                    <span className="font-mono text-sm text-muted-foreground">
+                      / 100
+                    </span>
+                  </div>
+                </div>
+                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                  Strong match
                 </span>
               </div>
 
-              <div className="mt-8 space-y-6">
+              <div className="mt-7 space-y-5">
                 {[
-                  { label: "ATS parsability", value: 92, tone: "bg-emerald-500" },
+                  { label: "ATS parsability", value: 92, tone: "bg-emerald-600" },
                   { label: "Impact & metrics", value: 65, tone: "bg-amber-500" },
                 ].map((row) => (
                   <div key={row.label}>
                     <div className="flex items-center justify-between text-sm">
                       <span className="font-medium">{row.label}</span>
-                      <span className="font-semibold tabular-nums">{row.value}%</span>
+                      <span className="font-mono font-medium tabular-nums">
+                        {row.value}%
+                      </span>
                     </div>
-                    <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-border">
+                    <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-border">
                       <div
                         data-bar
                         className={`h-full rounded-full ${row.tone}`}
@@ -172,70 +181,63 @@ export default function HomePage() {
                   </div>
                 ))}
               </div>
-            </div>
 
-            {/* Suggestions mock */}
-            <div className="p-8">
-              <div className="mb-6 flex items-center gap-2.5">
-                <Sparkles className="h-4 w-4 text-primary" />
-                <h3 className="text-sm font-semibold">AI suggestions</h3>
-              </div>
-
-              <div className="space-y-3">
-                <div className="relative overflow-hidden rounded-lg border border-border bg-card p-4 pl-5">
-                  <span className="absolute inset-y-0 left-0 w-1 bg-destructive/70" />
-                  <p className="text-xs font-medium text-muted-foreground">
-                    Original
-                  </p>
-                  <p className="mt-1 text-sm text-foreground/70 line-through decoration-destructive/40">
-                    Responsible for managing a team of 5 engineers.
-                  </p>
-                </div>
-
-                <div className="relative overflow-hidden rounded-lg border border-emerald-500/30 bg-emerald-500/[0.04] p-4 pl-5">
-                  <span className="absolute inset-y-0 left-0 w-1 bg-emerald-500" />
-                  <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                    Recommended
-                  </p>
-                  <p className="mt-1 text-sm font-medium text-foreground">
-                    Led 5 engineers to ship 3 features, lifting retention 15%.
-                  </p>
+              <div className="mt-7 border-t border-border pt-6">
+                <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                  Rewrite &middot; impact &amp; metrics
+                </p>
+                <div className="mt-3 space-y-2.5">
+                  <div className="rounded-md border border-border bg-background p-3">
+                    <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                      Before
+                    </p>
+                    <p className="mt-1 text-sm text-muted-foreground line-through decoration-destructive/50">
+                      Responsible for managing a team of 5 engineers.
+                    </p>
+                  </div>
+                  <div className="rounded-md border border-emerald-500/30 bg-emerald-500/[0.04] p-3">
+                    <p className="font-mono text-[10px] uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+                      After
+                    </p>
+                    <p className="mt-1 text-sm font-medium">
+                      Led 5 engineers to ship 3 features, lifting retention 15%.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
         <p className="mt-4 text-center text-xs text-muted-foreground">
-          Example output — your results will reflect your own resume.
+          Illustrative report &mdash; your results reflect your own resume.
         </p>
       </section>
 
-      {/* FEATURES (GSAP scroll reveal + stagger) */}
-      <section className="border-t border-border bg-muted/30 py-20">
-        <div className="mx-auto max-w-5xl px-6">
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-semibold tracking-tight">
-              A focused toolkit for fixing your resume
+      {/* CAPABILITIES */}
+      <section className="border-t border-border bg-muted/40">
+        <div className="mx-auto max-w-6xl px-6 py-20">
+          <Reveal className="max-w-2xl">
+            <h2 className="font-display text-4xl leading-tight tracking-tight md:text-5xl">
+              Built for the details that decide the outcome.
             </h2>
-            <p className="mt-3 text-base text-muted-foreground">
-              Concrete feedback, not vague advice — so you can ship edits today.
+            <p className="mt-4 text-base text-muted-foreground">
+              Three focused checks, no guesswork &mdash; so you know exactly what
+              to change before you apply.
             </p>
           </Reveal>
 
           <Reveal
             stagger
-            className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-3"
+            className="mt-14 grid gap-10 border-t border-border pt-8 md:grid-cols-3 md:gap-12"
           >
-            {features.map((feature) => (
-              <div
-                key={feature.title}
-                className="group bg-card p-7 transition-colors duration-200 hover:bg-muted/40"
-              >
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <feature.icon className="h-[18px] w-[18px]" />
-                </div>
-                <h3 className="mt-5 text-base font-semibold">{feature.title}</h3>
+            {features.map((feature, index) => (
+              <div key={feature.title}>
+                <span className="font-mono text-xs text-primary">
+                  0{index + 1}
+                </span>
+                <h3 className="mt-4 text-lg font-semibold tracking-tight">
+                  {feature.title}
+                </h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {feature.desc}
                 </p>
@@ -245,30 +247,29 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA (GSAP scroll reveal) */}
-      <section className="mx-auto max-w-3xl px-6 py-20 text-center">
-        <Reveal>
-          <h2 className="text-3xl font-semibold tracking-tight">
-            Your next interview starts here.
-          </h2>
-          <p className="mx-auto mt-3 max-w-md text-base text-muted-foreground">
-            Upload a PDF and get a scored, actionable breakdown in under a minute.
-          </p>
+      {/* CTA */}
+      <section className="mx-auto max-w-6xl px-6 py-20">
+        <Reveal className="flex flex-col items-start justify-between gap-9 rounded-lg bg-primary px-8 py-12 text-primary-foreground md:flex-row md:items-center md:px-14">
+          <div>
+            <h2 className="font-display text-4xl leading-tight tracking-tight md:text-5xl">
+              Find out what your resume is hiding.
+            </h2>
+            <p className="mt-3 max-w-lg text-sm leading-relaxed text-primary-foreground/75">
+              Upload a PDF and get a clear, scored breakdown in under a minute.
+              No account, no email required.
+            </p>
+          </div>
           <Link
             href="/analysis"
-            className="group mt-7 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors duration-200 hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="group inline-flex shrink-0 items-center gap-2 rounded-md bg-background px-6 py-3 text-sm font-semibold text-foreground transition-colors duration-200 hover:bg-background/90 focus-visible:ring-2 focus-visible:ring-background focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
           >
-            Analyze your resume
+            Analyse my resume
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
         </Reveal>
       </section>
 
-      <footer className="border-t border-border py-8 text-center">
-        <p className="text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} ResumeScope. All rights reserved.
-        </p>
-      </footer>
+      <Footer />
     </main>
   );
 }

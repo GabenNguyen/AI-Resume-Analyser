@@ -1,18 +1,37 @@
 import * as PdfParse from 'pdf-parse-new';
 
-export async function POST(req: Request) {
-    const formData = await req.formData();
-    const file = formData.get("file") as File;
+const MAX_PDF_BYTES = 5 * 1024 * 1024;
 
-    if (!file) {
+export async function POST(req: Request) {
+    let formData: FormData;
+    try {
+        formData = await req.formData();
+    } catch {
+        return Response.json({ error: "Invalid upload." }, { status: 400 });
+    }
+
+    const file = formData.get("file");
+    if (!file || typeof file === "string") {
         return Response.json(
             { error: "No PDF file provided!" },
+            { status: 400 }
+        );
+    }
+    if (file.type !== "application/pdf" || file.size === 0 || file.size > MAX_PDF_BYTES) {
+        return Response.json(
+            { error: "Invalid PDF file!" },
             { status: 400 }
         );
     }
 
     // Convert file → buffer
     const pdfBuffer = Buffer.from(await file.arrayBuffer());
+    if (!pdfBuffer.subarray(0, 1024).includes(Buffer.from("%PDF-"))) {
+        return Response.json(
+            { error: "Invalid PDF file!" },
+            { status: 400 }
+        );
+    }
 
     try {
         // Smart parser (recommended by library)
@@ -40,10 +59,7 @@ export async function POST(req: Request) {
             .trim();
 
         return Response.json(
-            {
-                text: cleanText,
-                meta: result._meta // optional debug info (method, duration, etc.)
-            },
+            { text: cleanText },
             { status: 200 }
         );
 
